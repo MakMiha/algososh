@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.container_line {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 80%;
+  gap: 12px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 90px;
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.input {
+  width: 200px;
+}
+
+.button {
+  width: 342px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.bottom_circle {
+  position: absolute;
+  top: 110px;
+  left: 12px;
+}
+
+.top_circle {
+  position: absolute;
+  bottom: 90px;
+  left: 12px;
+}

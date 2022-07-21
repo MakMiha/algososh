@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 50%;
+  gap: 12px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  margin-top: 140px;
+}
+
+.circle {
+  list-style: none;
+  padding: 0;
+  margin-right: 16px;
+}
