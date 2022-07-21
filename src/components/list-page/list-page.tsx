@@ -44,7 +44,7 @@ export const ListPage: React.FC = () => {
   const onChangeInputIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target: number = + e.target.value;
     setInputIndex(target);
-    if(target > 9) {
+    if(target > 9 || target < 0) {
       setInputIndex(9);
     }
   };
