@@ -72,7 +72,7 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title="Стек">
       <div className={styles.container}>
         <Input
-          value={inputValue}
+          value={inputValue || ''}
           onChange={onChange}
           isLimitText={true}
           maxLength={4}

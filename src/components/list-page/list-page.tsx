@@ -296,7 +296,7 @@ export const ListPage: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.container_line}>
           <Input
-            value={inputValue}
+            value={inputValue || ''}
             onChange={onChangeInputValue}
             isLimitText={true}
             maxLength={4}
@@ -337,7 +337,7 @@ export const ListPage: React.FC = () => {
             placeholder='Введите индекс'
             min={0}
             max={9}
-            value={inputIndex}
+            value={inputIndex || ''}
             onChange={onChangeInputIndex}
             isLimitText={true}
             extraClass={styles.input}

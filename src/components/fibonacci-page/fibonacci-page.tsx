@@ -46,7 +46,7 @@ export const FibonacciPage: React.FC = () => {
           min={1}
           max={19}
           type='number'
-          value={inputValue}
+          value={inputValue || ''}
           isLimitText={true}
           onChange={onChange}
         />

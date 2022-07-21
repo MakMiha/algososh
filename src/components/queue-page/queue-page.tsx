@@ -83,7 +83,7 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
       <div className={styles.container}>
         <Input
-          value={inputValue}
+          value={inputValue || ''}
           onChange={onChange}
           isLimitText={true}
           maxLength={4}

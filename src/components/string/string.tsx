@@ -56,7 +56,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
       <div className={styles.container}>
         <Input
-          value={inputValue}
+          value={inputValue || ''}
           onChange={onChange}
           isLimitText={true}
           maxLength={11}
