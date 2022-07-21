@@ -67,7 +67,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       curr = curr.next;
       currIndex++;
     }
-
+    
     return curr ? curr.value : null;
   }
 

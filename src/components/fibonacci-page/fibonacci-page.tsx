@@ -8,20 +8,25 @@ import { SHORT_DELAY_IN_MS } from '../../constants/delays';
 import { delay } from '../../utils/utils';
 
 export const FibonacciPage: React.FC = () => {
-  const [inputValue, setInputValue] = React.useState<number>(1);
+  const [inputValue, setInputValue] = React.useState<number>();
   const [array, setArray] = React.useState<number[]>([]);
   const [isLoader, setIsLoader] = React.useState(false);
+  const [isLock, setIsLock] = React.useState(false);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target: number = + e.target.value;
     setInputValue(target);
+    if(target > 19) {
+      setInputValue(19);
+    }
   };
 
-  const renderFibonacci = async () => {
+  const renderFibonacci = async (n: number) => {
     setIsLoader(true);
-    setInputValue(0);
+    setIsLock(true);
+    setInputValue(undefined);
     const arrayFib: number[] = [0, 1];
-    for (let i = 2; i < inputValue + 1; i++) {
+    for (let i = 2; i < n + 1; i++) {
       arrayFib.push(arrayFib[i - 2] + arrayFib[i - 1]);
     }
     const arrayTemp: number[] = [];
@@ -31,6 +36,7 @@ export const FibonacciPage: React.FC = () => {
       await delay(SHORT_DELAY_IN_MS);
     }
     setIsLoader(false);
+    setIsLock(false);
   };
 
   return (
@@ -41,14 +47,15 @@ export const FibonacciPage: React.FC = () => {
           max={19}
           type='number'
           value={inputValue}
+          isLimitText={true}
           onChange={onChange}
         />
         <Button
           text='Рассчитать'
           type='submit'
-          disabled={inputValue === 0}
+          disabled={isLock || inputValue === undefined || inputValue > 19}
           isLoader={isLoader}
-          onClick={() => renderFibonacci()}
+          onClick={() => renderFibonacci(inputValue as number)}
         />
       </div>
       <ul className={styles.list}>

@@ -13,9 +13,9 @@ import { ElementStates } from '../../types/element-states';
 
 export const ListPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
-  const [inputIndex, setInputIndex] = React.useState<number>(0);
+  const [inputIndex, setInputIndex] = React.useState<number>();
   const [array, setArray] = React.useState<TArrayList[]>([])
-  const [linkedList, setLinkedList] = React.useState<ILinkedList<string>>();
+  const [linkedList, setLinkedList] = React.useState<ILinkedList<TArrayList | string>>();
   const [isLoader, setIsLoader] = React.useState(false);
   const [isLoaderAddHead, setIsLoaderAddHead] = React.useState(false);
   const [isLoaderAddTail, setIsLoaderAddTail] = React.useState(false);
@@ -24,7 +24,7 @@ export const ListPage: React.FC = () => {
   const [isLoaderAddIndex, setIsLoaderAddIndex] = React.useState(false);
   const [isLoaderDeleteIndex, setIsLoaderDeleteIndex] = React.useState(false);
   React.useEffect(() => {
-    const randomArray: TArrayList[] = Array.from(Array(5), () => ({
+    const randomArray = Array.from(Array(5), () => ({
         value: String(Math.floor(Math.random() * 100) + 1),
         state: ElementStates.Default,
         head: '',
@@ -34,7 +34,7 @@ export const ListPage: React.FC = () => {
     randomArray[0].head = 'head'
     randomArray[randomArray.length-1].tail = 'tail'
     setArray([...randomArray])
-    const linkedList = new LinkedList<any>(randomArray);
+    const linkedList = new LinkedList<TArrayList | string>(randomArray);
     setLinkedList(linkedList);
   },[])
 
@@ -44,6 +44,9 @@ export const ListPage: React.FC = () => {
   const onChangeInputIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target: number = + e.target.value;
     setInputIndex(target);
+    if(target > 9) {
+      setInputIndex(9);
+    }
   };
 
   const addHead = async () => {
@@ -180,7 +183,7 @@ export const ListPage: React.FC = () => {
   
   const addIndex = async (index: number) => {
     const size = linkedList!.getSize();
-    if (inputIndex < 0 || inputIndex > size) {
+    if (index < 0 || index > size) {
       return;
     }
     setIsLoader(true);
@@ -213,16 +216,14 @@ export const ListPage: React.FC = () => {
       setArray([...array]);
       await delay(SHORT_DELAY_IN_MS)
     }
-
     if (index === size){
-      console.log(size)
       array[index! - 1] = {
         ...array[index! - 1],
         add: false,
         circle: undefined,
       };
       array.push({
-        value: linkedList!.getNodeByIndex(index!) as string,
+        value: inputValue,
         state: ElementStates.Modified,
       });
     } else {
@@ -232,7 +233,7 @@ export const ListPage: React.FC = () => {
         circle: undefined,
       };
       array.splice(index!, 0, {
-        value: linkedList!.getNodeByIndex(index!) as string,
+        value: inputValue,
         state: ElementStates.Modified,
       });
     }
@@ -256,19 +257,19 @@ export const ListPage: React.FC = () => {
     setIsLoader(true);
     setIsLoaderDeleteIndex(true);
     linkedList!.deleteFrom(index);
+    const value = array[index].value;
     for (let i = 0; i <= index!; i++) {
       array[i].state = ElementStates.Changing;
       setArray([...array]);
       await delay(SHORT_DELAY_IN_MS)
     }
-
     array[index!] = {
       ...array[index!],
       value: '',
       state: ElementStates.Default,
       delete: true,
       circle: {
-        value: array[index].value,
+        value: value
       },
     };
     setArray([...array]);
@@ -280,7 +281,7 @@ export const ListPage: React.FC = () => {
       array[0].head = 'head';
     }
     if (index === array.length ) {
-      array[array.length].tail = 'tail';
+      array[array.length - 1].tail = 'tail';
     }
     setArray([...array]);
     await delay(SHORT_DELAY_IN_MS)
@@ -334,6 +335,7 @@ export const ListPage: React.FC = () => {
           <Input
             type='number'
             placeholder='Введите индекс'
+            min={0}
             max={9}
             value={inputIndex}
             onChange={onChangeInputIndex}
@@ -343,17 +345,17 @@ export const ListPage: React.FC = () => {
           <Button
             text='Добавить по индексу'
             type='button'
-            disabled={inputValue === '' || isLoader}
+            disabled={inputValue === '' || isLoader || inputIndex as number > array.length}
             isLoader={isLoaderAddIndex}
-            onClick={() => addIndex(inputIndex)}
+            onClick={() => addIndex(inputIndex as number)}
             extraClass={styles.button}
           />
           <Button
             text='Удалить по индексу'
             type='button'
-            disabled={isLoader}
+            disabled={isLoader || inputIndex === undefined || inputIndex as number >= array.length}
             isLoader={isLoaderDeleteIndex}
-            onClick={() => deleteIndex(inputIndex)}
+            onClick={() => deleteIndex(inputIndex as number)}
             extraClass={styles.button}
           />
         </div>
