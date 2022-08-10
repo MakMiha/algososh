@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 80%;
+  gap: 12px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 48px;
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.button {
+  margin-left: 80px;
+}
