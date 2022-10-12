@@ -23,7 +23,9 @@ describe('Страница работает корректно', () => {
 
   it('Если инпут пустой, то кнопка заблокирована', () => {
     cy.get('input').clear()
-    cy.get('button').should('be.disabled')
+    cy.contains('Добавить').should('be.disabled')
+    cy.contains('Удалить').should('be.disabled')
+    cy.contains('Очистить').should('be.disabled')
   });
     
   it('Добавление выполняется корректно', () => {
