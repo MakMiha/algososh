@@ -4,7 +4,7 @@ import {
   SHORT_DELAY_IN_MS
 } from './utils/constants.cy';
 
-export const addItem= (value, index) => {
+export const addItem = (value, index) => {
   cy.get('input').type(value)
   cy.get('button').contains('Добавить').click()
   cy.get('[class^=circle_circle]').eq(index)
@@ -23,9 +23,15 @@ describe('Страница работает корректно', () => {
 
   it('Если инпут пустой, то кнопка заблокирована', () => {
     cy.get('input').clear()
-    cy.get('button').should('be.disabled')
+    cy.contains('Добавить').should('be.disabled')
+    cy.contains('Удалить').should('be.disabled')
+    cy.contains('Очистить').should('be.disabled')
+    cy.get('[class^=circle_circle]').each((element) => {
+      expect(element).to.have.text('')
+    });
   });
-    
+  
+
   it('Добавление выполняется корректно', () => {
     addItem('1', 0);
     cy.get('[class^=circle_circle]').prev().should('have.text', 'head');

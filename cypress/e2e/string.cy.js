@@ -45,8 +45,7 @@ describe('Страница работает корректно', () => {
         expect(symbol).to.have.text(element[index].value)
         expect(symbol).to.have.css('border', element[index].color)
       });
-      cy.wait(DELAY_IN_MS);
-      cy.wait(DELAY_IN_MS);
+      cy.wait(DELAY_IN_MS * 2);
     });
   });
 });

@@ -12,8 +12,8 @@ describe('Страница работает корректно', () => {
   });
 
   it('Если инпут пустой, то кнопка заблокирована', () => {
-    cy.get('input').eq(0).clear()
-    cy.get('input').eq(1).clear()
+    cy.get('[placeholder^="Введите текст"]').clear()
+    cy.get('[placeholder^="Введите индекс"]').clear()
     cy.get('button').should('be.disabled')
     cy.contains('Добавить в head').should('be.disabled')
     cy.contains('Добавить в tail').should('be.disabled')
