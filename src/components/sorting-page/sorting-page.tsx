@@ -9,6 +9,7 @@ import { delay, swap } from '../../utils/utils';
 import { TArrayNumber } from '../../types/types';
 import { Direction } from '../../types/direction';
 import { ElementStates } from '../../types/element-states';
+import { bubbleSorting, selectionSorting, } from './utils';
 
 export const SortingPage: React.FC = () => {
   const [arraySort, setArraySort] = React.useState<TArrayNumber[]>([]);
@@ -38,23 +39,7 @@ export const SortingPage: React.FC = () => {
     type === 'ascending'
       ? setAscending(true)
       : setDescending(true);
-    const array = [...arraySort];
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < array.length - i - 1; j++) {
-        array[j].state = ElementStates.Changing;
-        array[j + 1].state = ElementStates.Changing;
-        setArraySort([...array]);
-        await delay(DELAY_IN_MS);
-        if (
-          (type === 'descending' && array[j].value < array[j + 1].value) || 
-          (type === 'ascending' && array[j].value > array[j + 1].value)
-        ) {
-          swap(array, j, j + 1);
-        }
-        array[j].state = ElementStates.Default;
-      }
-      array[array.length - i - 1].state = ElementStates.Modified;
-    }
+    bubbleSorting(type, arraySort, setArraySort);
     setIsLoader(false);
     type === 'ascending'
       ? setAscending(false)
@@ -66,25 +51,8 @@ export const SortingPage: React.FC = () => {
     type === 'ascending'
       ? setAscending(true)
       : setDescending(true);
-    const array = [...arraySort];
-    for (let i = 0; i < array.length - 1; i++) {
-      let index = i;
-      for (let j = i + 1; j < array.length ; j++) {
-        array[i].state = ElementStates.Changing;
-        array[j].state = ElementStates.Changing;
-        setArraySort([...array]);
-        await delay(DELAY_IN_MS);
-        if ( (type === 'descending' && array[index].value < array[j].value) || 
-        (type === 'ascending' && array[index].value > array[j].value) ) {
-          index = j;
-        }
-        array[j].state = ElementStates.Default;
-        setArraySort([...array]);
-      }
-      swap(array, i, index);
-      array[i].state = ElementStates.Modified;
-    }
-    array[array.length - 1].state = ElementStates.Modified;
+
+    selectionSorting(type, arraySort, setArraySort);
 
     setIsLoader(false);
     type === 'ascending'
